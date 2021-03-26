@@ -7,7 +7,7 @@ import { IUsers } from "./users";
 const schema: Schema = new Schema(
   {
     email: { type: String, required: true, unique: true },
-    username: { types: String, unique: false },
+    username: { type: String, unique: false },
     password: { type: String, required: true },
   },
   { timestamps: true }
