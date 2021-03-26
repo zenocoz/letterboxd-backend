@@ -2,19 +2,17 @@ import ApiError from "@classes/ApiError/ApiError";
 
 const tokenHandler = (req: any, res, next) => {
   try {
-    if(req.originalUrl.includes("/api/users/me")){
-
+    if (req.originalUrl.includes("/api/users/me")) {
       res.status(202).send(req.user);
-    }
-    else{
-
-      if (req.query.returnToken==='true') {
+    } else {
+      if (req.query.returnToken === "true") {
         res.status(202).send(req.user);
       } else {
+        // res.header("Access-Control-Allow-Credentials", true);
         res.cookie("accessToken", req.user.accessToken);
         res.cookie("refreshToken", req.user.refreshToken);
-        delete req.user.accessToken
-        delete req.user.refreshToken
+        delete req.user.accessToken;
+        delete req.user.refreshToken;
         res.send(req.user);
       }
     }
