@@ -9,6 +9,11 @@ const schema: Schema = new Schema(
     email: { type: String, required: true, unique: true },
     username: { type: String, unique: false },
     password: { type: String, required: true },
+    watchedMovies: [{ type: String }], //imdbID
+    watchList: [{ type: String }],
+    following: [],
+    followers: [],
+    reviews: [],
   },
   { timestamps: true }
 );
