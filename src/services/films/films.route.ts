@@ -10,12 +10,15 @@ router.get("/", async (req, res, next) => {
   try {
     console.log(req.query);
     const titleSearch = "t=" + req.query.title;
-    const result = await axios.get(`${omdbApi}&${titleSearch}`, {
+    //ANY
+    const result: any = await axios.get(`${omdbApi}&${titleSearch}`, {
       method: "get",
       headers: { "Content-Type": "application/json" },
     });
-    console.log(result.data);
-    res.send(result.data);
+    if (!result.errors) {
+      console.log(result.data);
+      res.send(result.data);
+    }
   } catch (err) {
     console.log(err);
     next(new ApiError(500, "Couldn't fetch movies", false));

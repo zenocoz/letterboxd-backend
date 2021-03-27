@@ -44,4 +44,20 @@ router.delete(
   }
 );
 
+router.post("/:id/watched/:movieId", async (req, res, next) => {
+  try {
+    const user = await Users.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        $push: { watchedMovies: req.params.movieId },
+      }
+    );
+    if (user) {
+      res.status(201).send(user);
+    }
+  } catch (err) {
+    next(new ApiError(500, "watched movie not successfull", false));
+  }
+});
+
 export default router;
