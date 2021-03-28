@@ -4,7 +4,7 @@ import { model, Schema } from "mongoose";
 
 import { IUsers } from "./users";
 
-const schema: Schema = new Schema(
+const userSchema: Schema = new Schema(
   {
     email: { type: String, required: true, unique: true },
     username: { type: String, unique: false },
@@ -18,7 +18,7 @@ const schema: Schema = new Schema(
   { timestamps: true }
 );
 
-schema.pre<IUsers>("save", async function (next) {
+userSchema.pre<IUsers>("save", async function (next) {
   try {
     this.password = await bcrypt.hash(this.password, 8);
 
@@ -28,4 +28,4 @@ schema.pre<IUsers>("save", async function (next) {
   }
 });
 
-export default model<IUsers>("Users", schema);
+export default model<IUsers>("Users", userSchema);
