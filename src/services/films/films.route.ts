@@ -3,6 +3,7 @@ import axios from "axios";
 import ApiError from "@classes/ApiError/ApiError";
 import MovieModel from "./films.schema";
 import { IMovie } from "./films.d";
+const mongoose = require("mongoose");
 
 import { writeDB } from "./utils";
 
@@ -37,4 +38,22 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.post("/:filmId/seen/:userId", async (req, res, next) => {
+  try {
+    const movie: IMovie = await MovieModel.findByIdAndUpdate(
+      {
+        _id: req.params.filmId,
+      },
+      {
+        $push: { seenBy: { _id: mongoose.Types.ObjectId(req.params.userId) } },
+      }
+    );
+    if (movie) {
+      res.send(movie);
+    }
+  } catch (err) {
+    console.log(err);
+    next(new ApiError(500, "Couldn't add seen by", false));
+  }
+});
 export default router;
