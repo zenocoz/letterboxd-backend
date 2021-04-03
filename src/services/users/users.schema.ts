@@ -32,11 +32,16 @@ userSchema.pre<IUsers>("save", async function (next) {
 
 userSchema.static(
   "addMovieToWatchedList",
-  async function (this: IUsersModel, userId, movieId): Promise<any> {
-    await model<IUsers>("Users", userSchema).findOneAndUpdate(userId, {
+  async function (this, userId, movieId): Promise<any> {
+    console.log(userId);
+    const userUpdated = await model<IUsers>(
+      "Users",
+      userSchema
+    ).findByIdAndUpdate(userId, {
       $addToSet: { watchedMovies: movieId },
     });
+    return userUpdated;
   }
 );
 
-export default model<IUsers>("Users", userSchema);
+export default model<IUsers, IUsersModel>("Users", userSchema);

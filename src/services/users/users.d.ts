@@ -1,5 +1,4 @@
 import { Document, Model, Schema } from "mongoose";
-import UsersModel from "./users.schema";
 
 //TODO fix this
 export interface IUsers extends Document {
@@ -12,14 +11,14 @@ export interface IUsers extends Document {
   reviews: Array<IReview>;
 }
 
-export interface IUsersModel extends Model<any> {
+export interface IUsersModel extends Model<IUsers> {
   addMovieToWatchedList: (
     userId: Schema.Types.ObjectId,
     movieId: Schema.Types.ObjectId
   ) => Promise<any>;
 }
 
-declare type StaticFunction = (args: any) => void;
+// declare type StaticFunction = (args: any) => void;
 
 export interface IImdbID extends Document {
   movieId: string;

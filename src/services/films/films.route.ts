@@ -3,7 +3,8 @@ import axios from "axios";
 import ApiError from "@classes/ApiError/ApiError";
 import MovieModel from "./films.schema";
 import { IMovie } from "./films.d";
-// import UserModel from "../users/users.schema";
+import { IUsers } from "../users/users.d";
+import UserModel from "../users/users.schema";
 const mongoose = require("mongoose");
 
 import { writeDB } from "./utils";
@@ -60,8 +61,15 @@ router.post("/:filmId/seen/:userId", async (req, res, next) => {
       }
     );
     if (movie) {
-      // const user = await UserModel.addMovieToWatchedList();
-      res.send(movie);
+      const user: IUsers = await UserModel.addMovieToWatchedList(
+        mongoose.Types.ObjectId(req.params.userId),
+        mongoose.Types.ObjectId(req.params.filmId)
+      );
+      if (user) {
+        res.send(movie);
+      } else {
+        console.log("user not found");
+      }
     }
   } catch (err) {
     console.log(err);
