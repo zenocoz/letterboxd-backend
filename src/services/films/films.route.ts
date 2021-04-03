@@ -28,9 +28,16 @@ router.get("/", async (req, res, next) => {
       });
       await writeDB(result.data);
       // await MovieModel.addMovieToDB(result.data);
-
       console.log("new movie added to DB");
-      res.send(result.data);
+      const movie: IMovie = await MovieModel.findOne({
+        Title: req.query.title,
+      }).exec();
+      if (movie) {
+        console.log(movie.Title, "retrieved from DB");
+        res.send(movie);
+      } else {
+        console.log("ERROR IN RETRIEVING JUST CREATED MOVIE IN DB");
+      }
     }
   } catch (err) {
     console.log(err);
@@ -45,7 +52,9 @@ router.post("/:filmId/seen/:userId", async (req, res, next) => {
         _id: req.params.filmId,
       },
       {
-        $push: { seenBy: { _id: mongoose.Types.ObjectId(req.params.userId) } },
+        $addToSet: {
+          seenBy: { _id: mongoose.Types.ObjectId(req.params.userId) },
+        },
       }
     );
     if (movie) {
