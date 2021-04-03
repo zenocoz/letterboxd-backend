@@ -3,6 +3,7 @@ import axios from "axios";
 import ApiError from "@classes/ApiError/ApiError";
 import MovieModel from "./films.schema";
 import { IMovie } from "./films.d";
+// import UserModel from "../users/users.schema";
 const mongoose = require("mongoose");
 
 import { writeDB } from "./utils";
@@ -59,6 +60,7 @@ router.post("/:filmId/seen/:userId", async (req, res, next) => {
       }
     );
     if (movie) {
+      // const user = await UserModel.addMovieToWatchedList();
       res.send(movie);
     }
   } catch (err) {
@@ -66,4 +68,5 @@ router.post("/:filmId/seen/:userId", async (req, res, next) => {
     next(new ApiError(500, "Couldn't add seen by", false));
   }
 });
+
 export default router;
