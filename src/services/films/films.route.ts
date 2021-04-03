@@ -27,8 +27,9 @@ router.get("/", async (req, res, next) => {
         headers: { "Content-Type": "application/json" },
       });
       await writeDB(result.data);
-      // await MovieModel.addMovieToDB(result.data);
       console.log("new movie added to DB");
+
+      //fins and returns just added movie
       const movie: IMovie = await MovieModel.findOne({
         Title: req.query.title,
       }).exec();
