@@ -77,4 +77,33 @@ router.post("/:filmId/seen/:userId", async (req, res, next) => {
   }
 });
 
+router.put("/:filmId/seen/:userId", async (req, res, next) => {
+  try {
+    const movie: IMovie = await MovieModel.findByIdAndUpdate(
+      req.params.filmId,
+      {
+        $pull: {
+          seenBy: { _id: mongoose.Types.ObjectId(req.params.userId) },
+        },
+      }
+    );
+
+    if (movie) {
+      const user: IUsers = await UserModel.removeMovieFromWatchedList(
+        mongoose.Types.ObjectId(req.params.userId),
+        mongoose.Types.ObjectId(req.params.filmId)
+      );
+      if (user) {
+        res.send(movie);
+      } else {
+        console.log("user not found");
+      }
+    }
+  } catch (err) {
+    console.log(err);
+    console.log(err);
+    next(new ApiError(500, "Couldn't remove seenBy", false));
+  }
+});
+
 export default router;

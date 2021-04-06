@@ -16,6 +16,10 @@ export interface IUsersModel extends Model<IUsers> {
     userId: Schema.Types.ObjectId,
     movieId: Schema.Types.ObjectId
   ) => Promise<any>;
+  removeMovieFromWatchedList: (
+    userId: Schema.Types.ObjectId,
+    movieId: Schema.Types.ObjectId
+  ) => Promise<any>;
 }
 
 // declare type StaticFunction = (args: any) => void;

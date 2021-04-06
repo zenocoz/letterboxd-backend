@@ -44,4 +44,17 @@ userSchema.static(
   }
 );
 
+userSchema.static(
+  "removeMovieFromWatchedList",
+  async function (this, userId, movieId): Promise<any> {
+    const userUpdated = await model<IUsers>(
+      "Users",
+      userSchema
+    ).findByIdAndUpdate(userId, {
+      $pull: { watchedMovies: movieId },
+    });
+    return userUpdated;
+  }
+);
+
 export default model<IUsers, IUsersModel>("Users", userSchema);
