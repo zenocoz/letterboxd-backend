@@ -13,7 +13,7 @@ import { TokenPairs } from "@utils/jwt/jwt";
 import Users from "@services/users/users.schema";
 
 const cookieExtractor = function (req) {
-  console.log(req.cookies);
+  console.log("cookies", req.cookies);
   var token = null;
   if (req && req.cookies) {
     token = req.cookies["accessToken"];
@@ -40,7 +40,7 @@ passport.use(
       try {
         console.log("Hello");
         const { _id } = jwt_payload;
-        const user = await Users.findById(_id);
+        const user = await Users.findById(_id, { password: 0 });
         if (!user) {
           done(new ApiError(404, "User is  not found!", false), null);
         }

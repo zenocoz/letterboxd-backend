@@ -14,8 +14,8 @@ router.post("/register", passport.authenticate("auth.register"), tokenHandler);
 
 router.post("/login", passport.authenticate("auth.login"), tokenHandler);
 
-// router.get("/me", passport.authenticate("auth.jwt"), tokenHandler);
-router.get("/me", tokenHandler);
+router.get("/me", passport.authenticate("auth.jwt"), tokenHandler);
+// router.get("/me", tokenHandler);
 
 router.get("/:id", passport.authenticate("scope.me"), tokenHandler);
 
