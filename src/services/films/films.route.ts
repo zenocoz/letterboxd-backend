@@ -15,23 +15,20 @@ const omdbApi = "http://omdbapi.com/?apikey=d541d8b3";
 
 router.get("/", async (req, res, next) => {
   try {
-    const movie: IMovie = await MovieModel.findOne({
-      Title: req.query.title,
-    }).exec();
-    if (movie) {
-      console.log(movie.Title, "retrieved from DB");
-      res.send(movie);
-    } else {
-      const titleSearch = "t=" + req.query.title;
-      //ANY
-      const result: any = await axios.get(`${omdbApi}&${titleSearch}`, {
-        method: "get",
-        headers: { "Content-Type": "application/json" },
+    if (req.query) {
+      console.log(req.query);
+      const movies: IMovie[] = await MovieModel.find({
+        $or: [
+          { Title: { $regex: req.query.query, $options: "i" } },
+          { Director: { $regex: req.query.query, $options: "i" } },
+          { Actors: { $regex: req.query.query, $options: "i" } },
+        ],
       });
-      await writeDB(result.data);
-      console.log("new movie added to DB");
-
-      //fins and returns just added movie
+      if (movies) {
+        console.log("regex found", movies);
+        res.send(movies);
+      }
+    } else {
       const movie: IMovie = await MovieModel.findOne({
         Title: req.query.title,
       }).exec();
@@ -39,7 +36,25 @@ router.get("/", async (req, res, next) => {
         console.log(movie.Title, "retrieved from DB");
         res.send(movie);
       } else {
-        console.log("ERROR IN RETRIEVING JUST CREATED MOVIE IN DB");
+        const titleSearch = "t=" + req.query.title;
+        //ANY
+        const result: any = await axios.get(`${omdbApi}&${titleSearch}`, {
+          method: "get",
+          headers: { "Content-Type": "application/json" },
+        });
+        await writeDB(result.data);
+        console.log("new movie added to DB");
+
+        //fins and returns just added movie
+        const movie: IMovie = await MovieModel.findOne({
+          Title: req.query.title,
+        }).exec();
+        if (movie) {
+          console.log(movie.Title, "retrieved from DB");
+          res.send(movie);
+        } else {
+          console.log("ERROR IN RETRIEVING JUST CREATED MOVIE IN DB");
+        }
       }
     }
   } catch (err) {
