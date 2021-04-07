@@ -15,8 +15,7 @@ const omdbApi = "http://omdbapi.com/?apikey=d541d8b3";
 
 router.get("/", async (req, res, next) => {
   try {
-    if (req.query) {
-      console.log(req.query);
+    if (req.query.query) {
       const movies: IMovie[] = await MovieModel.find({
         $or: [
           { Title: { $regex: req.query.query, $options: "i" } },
@@ -24,21 +23,26 @@ router.get("/", async (req, res, next) => {
           { Actors: { $regex: req.query.query, $options: "i" } },
         ],
       });
-      if (movies) {
-        console.log("regex found", movies);
+      if (movies.length > 0) {
         res.send(movies);
+      } else {
+        console.log("movie not in own database");
+        //search and present results from external api
+        const movies: any = await axios.get(`${omdbApi}&s=${req.query.query}`);
+        res.send(movies.data.Search);
       }
     } else {
       const movie: IMovie = await MovieModel.findOne({
-        Title: req.query.title,
+        imdbID: req.query.imdbId,
       }).exec();
       if (movie) {
         console.log(movie.Title, "retrieved from DB");
         res.send(movie);
       } else {
-        const titleSearch = "t=" + req.query.title;
+        // const titleSearch = "t=" + req.query.title;
+        const imdbIdSearch = "i=" + req.query.imdbId;
         //ANY
-        const result: any = await axios.get(`${omdbApi}&${titleSearch}`, {
+        const result: any = await axios.get(`${omdbApi}&${imdbIdSearch}`, {
           method: "get",
           headers: { "Content-Type": "application/json" },
         });
@@ -47,7 +51,7 @@ router.get("/", async (req, res, next) => {
 
         //fins and returns just added movie
         const movie: IMovie = await MovieModel.findOne({
-          Title: req.query.title,
+          imdbID: req.query.imdbId,
         }).exec();
         if (movie) {
           console.log(movie.Title, "retrieved from DB");
