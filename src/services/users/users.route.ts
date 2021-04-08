@@ -18,6 +18,21 @@ router.get("/me", passport.authenticate("auth.jwt"), tokenHandler);
 
 router.get("/:id", passport.authenticate("scope.me"), tokenHandler);
 
+router.get("/", async (req, res, next) => {
+  try {
+    console.log(req.headers);
+    const members = await Users.find({});
+    if (members) {
+      res.send(members);
+    } else {
+      console.log("there are no members");
+    }
+  } catch (err) {
+    console.log(err);
+    next(new ApiError(500, "could not retrieve members", false));
+  }
+});
+
 router.put(
   "/:id",
   passport.authenticate("scope.me"),
