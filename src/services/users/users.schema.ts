@@ -57,4 +57,17 @@ userSchema.static(
   }
 );
 
+userSchema.static(
+  "addFollower",
+  async function (this, memberId, userId): Promise<any> {
+    const memberUpdated = await model<IUsers>(
+      "Users",
+      userSchema
+    ).findByIdAndUpdate(memberId, {
+      $addToSet: { followers: userId },
+    });
+    return memberUpdated;
+  }
+);
+
 export default model<IUsers, IUsersModel>("Users", userSchema);

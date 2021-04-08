@@ -5,8 +5,13 @@ import passport from "@utils/passport/passport";
 import { tokenHandler } from "@middlewares/TokenHandler/TokenHandler";
 
 import Users from "./users.schema";
+import UserModel from "../users/users.schema";
+
+import { IUsers } from "./users.d";
 
 import ApiError from "@classes/ApiError/ApiError";
+
+const mongoose = require("mongoose");
 
 const router = Router();
 
@@ -58,6 +63,64 @@ router.delete(
     }
   }
 );
+
+router.post("/:userId/follow/:memberId", async (req, res, next) => {
+  try {
+    const user: IUsers = await Users.findByIdAndUpdate(
+      {
+        _id: req.params.userId,
+      },
+      {
+        $addToSet: {
+          following: { _id: mongoose.Types.ObjectId(req.params.memberId) },
+        },
+      }
+    );
+    if (user) {
+      const member: IUsers = await UserModel.addFollower(
+        mongoose.Types.ObjectId(req.params.userId),
+        mongoose.Types.ObjectId(req.params.memberId)
+      );
+      if (member) {
+        res.send(member);
+      } else {
+        console.log("member not found");
+      }
+    }
+  } catch (err) {
+    console.log(err);
+    next(new ApiError(500, "Couldn't follow user", false));
+  }
+});
+
+router.put("/:userId/follow/:memberId", async (req, res, next) => {
+  try {
+    const user: IUsers = await Users.findByIdAndUpdate(
+      {
+        _id: req.params.userId,
+      },
+      {
+        $addToSet: {
+          following: { _id: mongoose.Types.ObjectId(req.params.memberId) },
+        },
+      }
+    );
+    if (user) {
+      const member: IUsers = await UserModel.addFollower(
+        mongoose.Types.ObjectId(req.params.userId),
+        mongoose.Types.ObjectId(req.params.memberId)
+      );
+      if (member) {
+        res.send(member);
+      } else {
+        console.log("member not found");
+      }
+    }
+  } catch (err) {
+    console.log(err);
+    next(new ApiError(500, "Couldn't follow user", false));
+  }
+});
 
 //used other endpoint in films
 // router.post("/:id/watched/:movieId", async (req, res, next) => {
