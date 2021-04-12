@@ -70,4 +70,17 @@ userSchema.static(
   }
 );
 
+userSchema.static(
+  "removeFollower",
+  async function (this, memberId, userId): Promise<any> {
+    const memberUpdated = await model<IUsers>(
+      "Users",
+      userSchema
+    ).findByIdAndUpdate(memberId, {
+      $pull: { followers: userId },
+    });
+    return memberUpdated;
+  }
+);
+
 export default model<IUsers, IUsersModel>("Users", userSchema);

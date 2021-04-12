@@ -78,8 +78,8 @@ router.post("/:userId/follow/:memberId", async (req, res, next) => {
     );
     if (user) {
       const member: IUsers = await UserModel.addFollower(
-        mongoose.Types.ObjectId(req.params.userId),
-        mongoose.Types.ObjectId(req.params.memberId)
+        mongoose.Types.ObjectId(req.params.memberId),
+        mongoose.Types.ObjectId(req.params.userId)
       );
       if (member) {
         res.send(member);
@@ -93,6 +93,7 @@ router.post("/:userId/follow/:memberId", async (req, res, next) => {
   }
 });
 
+//unfollow
 router.put("/:userId/follow/:memberId", async (req, res, next) => {
   try {
     const user: IUsers = await Users.findByIdAndUpdate(
@@ -100,15 +101,15 @@ router.put("/:userId/follow/:memberId", async (req, res, next) => {
         _id: req.params.userId,
       },
       {
-        $addToSet: {
+        $pull: {
           following: { _id: mongoose.Types.ObjectId(req.params.memberId) },
         },
       }
     );
     if (user) {
-      const member: IUsers = await UserModel.addFollower(
-        mongoose.Types.ObjectId(req.params.userId),
-        mongoose.Types.ObjectId(req.params.memberId)
+      const member: IUsers = await UserModel.removeFollower(
+        mongoose.Types.ObjectId(req.params.memberId),
+        mongoose.Types.ObjectId(req.params.userId)
       );
       if (member) {
         res.send(member);
@@ -119,6 +120,23 @@ router.put("/:userId/follow/:memberId", async (req, res, next) => {
   } catch (err) {
     console.log(err);
     next(new ApiError(500, "Couldn't follow user", false));
+  }
+});
+
+//get user films
+router.get("/films/:userId", async (req, res, next) => {
+  try {
+    const user = await Users.findById(req.params.userId).populate(
+      "watchedMovies"
+    );
+    if (user) {
+      res.send(user.watchedMovies);
+    } else {
+      console.log("couldn't find user ");
+    }
+  } catch (err) {
+    console.log(err);
+    next(new ApiError(500, "Couldn't retrieve watched movies", false));
   }
 });
 

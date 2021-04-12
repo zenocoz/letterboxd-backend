@@ -77,6 +77,7 @@ router.post("/:filmId/seen/:userId", async (req, res, next) => {
         $addToSet: {
           seenBy: { _id: mongoose.Types.ObjectId(req.params.userId) },
         },
+        $inc: { views: 1 },
       }
     );
     if (movie) {
@@ -96,14 +97,16 @@ router.post("/:filmId/seen/:userId", async (req, res, next) => {
   }
 });
 
+//unwatch
 router.put("/:filmId/seen/:userId", async (req, res, next) => {
   try {
-    const movie: IMovie = await MovieModel.findByIdAndUpdate(
-      req.params.filmId,
+    const movie: IMovie = await MovieModel.findOneAndUpdate(
+      { _id: req.params.filmId, views: { $gte: 0 } },
       {
         $pull: {
           seenBy: { _id: mongoose.Types.ObjectId(req.params.userId) },
         },
+        $inc: { views: -1 },
       }
     );
 

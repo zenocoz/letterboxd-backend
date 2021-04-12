@@ -17,6 +17,22 @@ export const writeDB = async (data: IMovie) => {
       Poster,
       imdbID,
     } = data;
+    // const myMovieObj = {
+    //   Title,
+    //   Year,
+    //   Runtime,
+    //   Genre,
+    //   Director,
+    //   Writer,
+    //   Actors,
+    //   Plot,
+    //   Language,
+    //   Country,
+    //   Poster,
+    //   imdbID,
+    // };
+    const seenBy = [];
+    const views = 0;
     const myMovieObj = {
       Title,
       Year,
@@ -30,6 +46,8 @@ export const writeDB = async (data: IMovie) => {
       Country,
       Poster,
       imdbID,
+      seenBy,
+      views,
     };
 
     await new MovieModel(myMovieObj).save();

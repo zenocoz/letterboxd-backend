@@ -8,6 +8,7 @@ export interface IUsers extends Document {
   watchedMovies: Array<String>;
   watchList: Array<String>;
   following: Schema.Types.ObjectId[];
+  followers: Schema.Types.ObjectId[];
   reviews: Array<IReview>;
 }
 
@@ -23,7 +24,11 @@ export interface IUsersModel extends Model<IUsers> {
   addFollower: (
     memberId: Schema.Types.ObjectId,
     userId: Schema.Types.ObjectId
-  )
+  ) => Promise<any>;
+  removeFollower: (
+    memberId: Schema.Types.ObjectId,
+    userId: Schema.Types.ObjectId
+  ) => Promise<any>;
 }
 
 // declare type StaticFunction = (args: any) => void;

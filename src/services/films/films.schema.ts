@@ -17,6 +17,7 @@ const MovieSchema: Schema = new Schema(
     imdbID: { type: String, required: true },
     Poster: { type: String, required: true },
     seenBy: [{ _id: { type: Schema.Types.ObjectId, ref: "Users" } }],
+    views: { type: Number },
   },
   { timestamps: true }
 );
