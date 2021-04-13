@@ -63,13 +63,16 @@ const MovieSchema: Schema = new Schema(
 
 MovieSchema.static(
   "addReview",
-  async function (this, filmId, reviewId): Promise<any> {
+  async function (this, movieId, reviewId): Promise<any> {
     const movieUpdated = await model<IMovie>(
       "Movies",
       MovieSchema
-    ).findByIdAndUpdate(filmId, {
-      $push: { reviews: reviewId },
-    });
+    ).findByIdAndUpdate(
+      { _id: movieId },
+      {
+        $push: { reviews: reviewId },
+      }
+    );
     return movieUpdated;
   }
 );

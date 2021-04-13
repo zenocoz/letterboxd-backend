@@ -13,6 +13,7 @@ const router = Router();
 
 router.post("/", async (req, res, next) => {
   try {
+    console.log("REQ BODY", req.body);
     const newReview = await new ReviewModel(req.body).save();
     console.log("review added to Database", newReview._id);
     if (newReview) {
@@ -21,7 +22,7 @@ router.post("/", async (req, res, next) => {
         newReview._id
       );
       const movie: IMovie = await MovieModel.addReview(
-        req.body.filmId,
+        req.body.movieId,
         newReview._id
       );
 
