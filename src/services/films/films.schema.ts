@@ -18,6 +18,7 @@ const MovieSchema: Schema = new Schema(
     Poster: { type: String, required: true },
     seenBy: [{ _id: { type: Schema.Types.ObjectId, ref: "Users" } }],
     views: { type: Number },
+    reviews: [{ type: Schema.Types.ObjectId, ref: "Reviews" }],
   },
   { timestamps: true }
 );
@@ -59,6 +60,19 @@ const MovieSchema: Schema = new Schema(
 //     console.log(err);
 //   }
 // });
+
+MovieSchema.static(
+  "addReview",
+  async function (this, filmId, reviewId): Promise<any> {
+    const movieUpdated = await model<IMovie>(
+      "Movies",
+      MovieSchema
+    ).findByIdAndUpdate(filmId, {
+      $push: { reviews: reviewId },
+    });
+    return movieUpdated;
+  }
+);
 
 const MovieModel: any = model<IMovie>("Movies", MovieSchema);
 

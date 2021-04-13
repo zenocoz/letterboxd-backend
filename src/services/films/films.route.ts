@@ -101,7 +101,7 @@ router.post("/:filmId/seen/:userId", async (req, res, next) => {
 router.put("/:filmId/seen/:userId", async (req, res, next) => {
   try {
     const movie: IMovie = await MovieModel.findOneAndUpdate(
-      { _id: req.params.filmId, views: { $gte: 0 } },
+      { _id: req.params.filmId, views: { $gt: 0 } },
       {
         $pull: {
           seenBy: { _id: mongoose.Types.ObjectId(req.params.userId) },
@@ -127,5 +127,25 @@ router.put("/:filmId/seen/:userId", async (req, res, next) => {
     next(new ApiError(500, "Couldn't remove seenBy", false));
   }
 });
+
+// router.put("/:filmId/review/", async (req, res, next) => {
+//   try {
+//     const movie: IMovie = await MovieModel.findbyIdAndUpdate(
+//       {
+//         _id: req.params.filmId,
+//       },
+//       {
+//         $push: {
+//           reviews: req.body,
+//         },
+//       }
+//     );
+//     if(movie) {
+//       const user =
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
 
 export default router;

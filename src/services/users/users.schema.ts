@@ -15,7 +15,7 @@ const userSchema: Schema = new Schema(
     watchList: [{ type: Schema.Types.ObjectId, ref: "Movies" }],
     following: [{ type: Schema.Types.ObjectId, ref: "Users" }],
     followers: [{ type: Schema.Types.ObjectId, ref: "Users" }],
-    reviews: [],
+    reviews: [{ type: Schema.Types.ObjectId, ref: "Reviews" }],
   },
   { timestamps: true }
 );
@@ -83,4 +83,16 @@ userSchema.static(
   }
 );
 
+userSchema.static(
+  "addReview",
+  async function (this, userId, reviewId): Promise<any> {
+    const memberUpdated = await model<IUsers>(
+      "Users",
+      userSchema
+    ).findByIdAndUpdate(userId, {
+      $push: { reviews: reviewId },
+    });
+    return memberUpdated;
+  }
+);
 export default model<IUsers, IUsersModel>("Users", userSchema);

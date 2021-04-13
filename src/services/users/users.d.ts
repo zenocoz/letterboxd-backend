@@ -9,7 +9,7 @@ export interface IUsers extends Document {
   watchList: Array<String>;
   following: Schema.Types.ObjectId[];
   followers: Schema.Types.ObjectId[];
-  reviews: Array<IReview>;
+  reviews: Array<string>;
 }
 
 export interface IUsersModel extends Model<IUsers> {
@@ -29,17 +29,10 @@ export interface IUsersModel extends Model<IUsers> {
     memberId: Schema.Types.ObjectId,
     userId: Schema.Types.ObjectId
   ) => Promise<any>;
+  addReview: (
+    userID: Schema.Types.ObjectId,
+    reviewId: Schema.Types.ObjectId
+  ) => Promise<any>;
 }
 
 // declare type StaticFunction = (args: any) => void;
-
-export interface IImdbID extends Document {
-  movieId: string;
-}
-
-export interface IReview extends Document {
-  author: IUsers;
-  movie: IImdbID;
-  text: String;
-  likes: Array<IUsers>;
-}
