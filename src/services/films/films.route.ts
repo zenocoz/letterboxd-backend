@@ -67,6 +67,51 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.get("/internal/:filmId", async (req, res, next) => {
+  try {
+    const movie = await MovieModel.findById(req.params.filmId);
+    if (movie) {
+      res.send(movie);
+    } else {
+      console.log("movie by id not found in internal DB");
+    }
+  } catch (err) {
+    console.log(err);
+    next(new ApiError(500, "Couldn't find movie by id", false));
+  }
+});
+
+router.get("/globalData", async (req, res, next) => {
+  try {
+    const movies = await MovieModel.find(
+      {},
+      {
+        reviews: 0,
+        Title: 0,
+        Year: 0,
+        Runtime: 0,
+        Director: 0,
+        Writer: 0,
+        Actors: 0,
+        Plot: 0,
+        Language: 0,
+        Country: 0,
+        Poster: 0,
+        seenBy: 0,
+      }
+    );
+    if (movies) {
+      console.log(req);
+      res.send(movies);
+    } else {
+      console.log("there are no movies");
+    }
+  } catch (err) {
+    console.log(err);
+    next(new ApiError(500, "problem fetching movie data", false));
+  }
+});
+
 router.post("/:filmId/seen/:userId", async (req, res, next) => {
   try {
     const movie: IMovie = await MovieModel.findByIdAndUpdate(
@@ -132,13 +177,13 @@ router.put("/:filmId/rate", async (req, res, next) => {
     console.log("REQ BODY", req.body);
     const movie: IMovie = await MovieModel.findOneAndUpdate(
       { _id: req.params.filmId },
-      { $set: { rating: req.body.rating } }
+      { $set: { rating: req.body.globalRating } }
     );
     if (movie) {
       const user: IUsers = await UserModel.addRatingToWatchedList(
         mongoose.Types.ObjectId(req.body.userId),
         mongoose.Types.ObjectId(req.params.filmId),
-        req.body.rating
+        req.body.userRating
       );
       if (user) {
         res.send(movie);

@@ -26,7 +26,19 @@ router.get("/:id", passport.authenticate("scope.me"), tokenHandler);
 router.get("/", async (req, res, next) => {
   try {
     console.log(req.headers);
-    const members = await Users.find({});
+    const members = await Users.find(
+      {},
+      {
+        email: 0,
+        username: 0,
+        password: 0,
+        watchList: 0,
+        following: 0,
+        followers: 0,
+        reviews: 0,
+        watchedMovies: 0,
+      }
+    );
     if (members) {
       res.send(members);
     } else {
