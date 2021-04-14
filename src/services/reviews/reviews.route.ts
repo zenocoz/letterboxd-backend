@@ -38,4 +38,18 @@ router.post("/", async (req, res, next) => {
   }
 });
 
+router.get("/", async (req, res, next) => {
+  try {
+    const reviews = await ReviewModel.find({});
+    if (reviews) {
+      res.send(reviews);
+    } else {
+      console.log("didn't find any reviews. Console loggin request: ", req);
+    }
+  } catch (err) {
+    console.log(err);
+    next(new ApiError(500, "Couldn't retrieve all the reviews", false));
+  }
+});
+
 export default router;
