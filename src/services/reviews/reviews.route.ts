@@ -27,6 +27,7 @@ router.post("/", async (req, res, next) => {
 
       Promise.all([user, movie])
         .then((values) => {
+          console.log(values);
           res.send(newReview);
         })
         .catch((err) => console.log(err));

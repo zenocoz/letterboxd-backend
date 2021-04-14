@@ -5,7 +5,7 @@ export interface IUsers extends Document {
   email: string;
   username: string;
   password: string;
-  watchedMovies: Array<String>;
+  watchedMovies: object[];
   watchList: Array<String>;
   following: Schema.Types.ObjectId[];
   followers: Schema.Types.ObjectId[];
@@ -32,6 +32,11 @@ export interface IUsersModel extends Model<IUsers> {
   addReview: (
     userID: Schema.Types.ObjectId,
     reviewId: Schema.Types.ObjectId
+  ) => Promise<any>;
+  addRatingToWatchedList: (
+    userID: Schema.Types.ObjectId,
+    movieId: Schema.Types.ObjectId,
+    rating: Number
   ) => Promise<any>;
 }
 

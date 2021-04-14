@@ -123,29 +123,35 @@ router.put("/:filmId/seen/:userId", async (req, res, next) => {
     }
   } catch (err) {
     console.log(err);
-    console.log(err);
     next(new ApiError(500, "Couldn't remove seenBy", false));
   }
 });
 
-// router.put("/:filmId/review/", async (req, res, next) => {
-//   try {
-//     const movie: IMovie = await MovieModel.findbyIdAndUpdate(
-//       {
-//         _id: req.params.filmId,
-//       },
-//       {
-//         $push: {
-//           reviews: req.body,
-//         },
-//       }
-//     );
-//     if(movie) {
-//       const user =
-//     }
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
+router.put("/:filmId/rate", async (req, res, next) => {
+  try {
+    console.log("REQ BODY", req.body);
+    const movie: IMovie = await MovieModel.findOneAndUpdate(
+      { _id: req.params.filmId },
+      { $set: { rating: req.body.rating } }
+    );
+    if (movie) {
+      const user: IUsers = await UserModel.addRatingToWatchedList(
+        mongoose.Types.ObjectId(req.body.userId),
+        mongoose.Types.ObjectId(req.params.filmId),
+        req.body.rating
+      );
+      if (user) {
+        res.send(movie);
+      } else {
+        console.log("user not found");
+      }
+    } else {
+      console.log("coulnd't update movie");
+    }
+  } catch (err) {
+    console.log(err);
+    next(new ApiError(500, "Couldn't rate movie ", false));
+  }
+});
 
 export default router;
