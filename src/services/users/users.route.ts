@@ -30,7 +30,7 @@ router.get("/", async (req, res, next) => {
       {},
       {
         email: 0,
-        username: 0,
+        // username: 1,
         password: 0,
         watchList: 0,
         following: 0,
