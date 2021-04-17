@@ -10,6 +10,7 @@ export interface IUsers extends Document {
   following: Schema.Types.ObjectId[];
   followers: Schema.Types.ObjectId[];
   reviews: Array<string>;
+  picture: string;
 }
 
 export interface IUsersModel extends Model<IUsers> {

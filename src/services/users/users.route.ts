@@ -10,6 +10,19 @@ import UserModel from "../users/users.schema";
 import { IUsers } from "./users.d";
 
 import ApiError from "@classes/ApiError/ApiError";
+// import { ResetToken } from "@utils/jwt/jwt";
+
+//cloudinary
+const multer = require("multer");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const cloudinary = require("../../middlewares/cloudinary");
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "striveTest",
+  },
+});
+const cloudinaryMulter = multer({ storage: storage });
 
 const mongoose = require("mongoose");
 
@@ -152,28 +165,25 @@ router.get("/films/:userId", async (req, res, next) => {
   }
 });
 
-//used other endpoint in films
-// router.post("/:id/watched/:movieId", async (req, res, next) => {
-//   try {
-//     const user = await Users.findOneAndUpdate(
-//       { _id: req.params.id },
-//       {
-//         $push: { watchedMovies: req.params.movieId },
-//       }
-//     );
-//     if (user) {
-//       res.status(201).send(user);
-//     }
-//   } catch (err) {
-//     next(new ApiError(500, "watched movie not successfull", false));
-//   }
-// });
+router.post(
+  "/:userId/addPicture",
+  cloudinaryMulter.single("picture"),
+  async (req, res, next) => {
+    try {
+      const user = await Users.findByIdAndUpdate(
+        { _id: req.params.userId },
+        { $set: { picture: req["file"].path } }
+      );
+      if (user) {
+        res.send("picture succesfully uploaded");
+      } else {
+        console.log("problems adding picture profile");
+      }
+    } catch (err) {
+      console.log(err);
+      next(new ApiError(500, "Couldn't add profile picture", false));
+    }
+  }
+);
 
-// router.get("/meBe", async (req, res, next) => {
-//   try {
-//     res.send(req.user);
-//   } catch (error) {
-//     next(error);
-//   }
-// });
 export default router;

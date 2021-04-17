@@ -17,20 +17,7 @@ export const writeDB = async (data: IMovie) => {
       Poster,
       imdbID,
     } = data;
-    // const myMovieObj = {
-    //   Title,
-    //   Year,
-    //   Runtime,
-    //   Genre,
-    //   Director,
-    //   Writer,
-    //   Actors,
-    //   Plot,
-    //   Language,
-    //   Country,
-    //   Poster,
-    //   imdbID,
-    // };
+
     const seenBy = [];
     const views = 0;
     const rating = 0;

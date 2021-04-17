@@ -21,6 +21,7 @@ const userSchema: Schema = new Schema(
     following: [{ type: Schema.Types.ObjectId, ref: "Users" }],
     followers: [{ type: Schema.Types.ObjectId, ref: "Users" }],
     reviews: [{ type: Schema.Types.ObjectId, ref: "Reviews" }],
+    picture: { type: String, required: false },
   },
   { timestamps: true }
 );
