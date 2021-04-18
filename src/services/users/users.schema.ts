@@ -23,7 +23,7 @@ const userSchema: Schema = new Schema(
     reviews: [{ type: Schema.Types.ObjectId, ref: "Reviews" }],
     picture: { type: String, required: false },
   },
-  { timestamps: true }
+  { timestamps: true, toObject: { virtuals: true }, toJSON: { virtuals: true } }
 );
 
 userSchema.pre<IUsers>("save", async function (next) {
@@ -82,11 +82,6 @@ userSchema.static(
   }
 );
 
-// Person.update({'items.id': 2}, {'$set': {
-//   'items.$.name': 'updated item2',
-//   'items.$.value': 'two updated'
-// }}, function(err) { ..
-
 userSchema.static(
   "addFollower",
   async function (this, memberId, userId): Promise<any> {
@@ -125,4 +120,31 @@ userSchema.static(
     return memberUpdated;
   }
 );
+
+userSchema.virtual("totalWatched").get(function () {
+  if (this.watchedMovies) {
+    return this.watchedMovies.length;
+  }
+});
+
+//TODO other virtuals not working
+// userSchema.virtual("totalFollowers").get(function () {
+//   if (this.followers) {
+//     return this.followers.length;
+//   }
+// });
+// userSchema.virtual("totalReviews").get(function () {
+//   if (this.reviews) {
+//     return this.reviews.length;
+//   }
+// });
+// userSchema.virtual("socialData").get(function () {
+//   return {
+//     totalWatched: this.watchedMovies.length,
+//     totalReviews: this.reviews.length,
+//     totalFollowers: this.followers.length,
+//     totalFollowing: this.following.length,
+//   };
+// });
+
 export default model<IUsers, IUsersModel>("Users", userSchema);
