@@ -184,4 +184,19 @@ router.post(
   }
 );
 
+router.get("/member/:id", async (req, res, next) => {
+  try {
+    const member = await Users.findById(req.params.id);
+    if (member) {
+      //TODO add projections
+      res.send(member);
+    } else {
+      console.log("member not found");
+    }
+  } catch (err) {
+    console.log(err);
+    next(new ApiError(500, "Couldn't find member by id", false));
+  }
+});
+
 export default router;

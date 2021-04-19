@@ -17,10 +17,10 @@ const userSchema: Schema = new Schema(
         rating: { type: Number },
       },
     ],
-    watchList: [{ type: Schema.Types.ObjectId, ref: "Movies" }],
-    following: [{ type: Schema.Types.ObjectId, ref: "Users" }],
-    followers: [{ type: Schema.Types.ObjectId, ref: "Users" }],
-    reviews: [{ type: Schema.Types.ObjectId, ref: "Reviews" }],
+    watchList: [{ _id: { type: Schema.Types.ObjectId, ref: "Movies" } }],
+    following: [{ _id: { type: Schema.Types.ObjectId, ref: "Users" } }],
+    followers: [{ _id: { type: Schema.Types.ObjectId, ref: "Users" } }],
+    reviews: [{ _id: { type: Schema.Types.ObjectId, ref: "Reviews" } }],
     picture: { type: String, required: false },
   },
   { timestamps: true, toObject: { virtuals: true }, toJSON: { virtuals: true } }
@@ -89,7 +89,7 @@ userSchema.static(
       "Users",
       userSchema
     ).findByIdAndUpdate(memberId, {
-      $addToSet: { followers: userId },
+      $addToSet: { followers: { _id: userId } },
     });
     return memberUpdated;
   }
@@ -102,7 +102,7 @@ userSchema.static(
       "Users",
       userSchema
     ).findByIdAndUpdate(memberId, {
-      $pull: { followers: userId },
+      $pull: { followers: { _id: userId } },
     });
     return memberUpdated;
   }
