@@ -186,7 +186,7 @@ router.post(
 
 router.get("/member/:id", async (req, res, next) => {
   try {
-    const member = await Users.findById(req.params.id);
+    const member = await Users.findById(req.params.id, { password: 0 });
     if (member) {
       //TODO add projections
       res.send(member);
