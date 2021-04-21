@@ -24,44 +24,6 @@ const MovieSchema: Schema = new Schema(
   { timestamps: true }
 );
 
-// MovieSchema.static("addMovieToDB", async function (movie: IMovie) {
-//   try {
-//     const {
-//       Title,
-//       Year,
-//       Runtime,
-//       Genre,
-//       Director,
-//       Writer,
-//       Actors,
-//       Plot,
-//       Language,
-//       Country,
-//       Poster,
-//       imdbID,
-//     } = movie;
-//     const myMovieObj = {
-//       Title,
-//       Year,
-//       Runtime,
-//       Genre,
-//       Director,
-//       Writer,
-//       Actors,
-//       Plot,
-//       Language,
-//       Country,
-//       Poster,
-//       imdbID,
-//     };
-
-//     await new MovieModel(myMovieObj).save();
-//     console.log("movie added", { movie: myMovieObj });
-//   } catch (err) {
-//     console.log(err);
-//   }
-// });
-
 MovieSchema.static(
   "addReview",
   async function (this, movieId, reviewId): Promise<any> {
