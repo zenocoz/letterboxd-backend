@@ -18,24 +18,21 @@ const ClubSchema: Schema = new Schema(
   { timestamps: true }
 );
 
-// ClubSchema.static("acceptInvitation", async function(this,clubId, memberId):any {
-//   const clubUpdated = await model<any>("Clubs", ClubSchema).findByIdAndUpdate(clubId, );
-//   return clubUpdated
-// })
+ClubSchema.static(
+  "acceptInvitation",
+  async function (this, clubId, memberId): Promise<any> {
+    console.log("clubId", clubId);
+    console.log("memberId", memberId);
+    const clubUpdated = await model<any>("Clubs", ClubSchema).findOneAndUpdate(
+      { _id: clubId, "members._id": memberId },
+      {
+        $set: { "members.$.confirmed": true },
+      }
+    );
+    return clubUpdated;
+  }
+);
 
 const ClubModel: any = model<any>("Clubs", ClubSchema);
 
 export default ClubModel;
-
-// userSchema.static(
-//   "addFollower",
-//   async function (this, memberId, userId): Promise<any> {
-//     const memberUpdated = await model<IUsers>(
-//       "Users",
-//       userSchema
-//     ).findByIdAndUpdate(memberId, {
-//       $addToSet: { followers: { _id: userId } },
-//     });
-//     return memberUpdated;
-//   }
-// );

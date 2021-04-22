@@ -199,6 +199,7 @@ router.put("/:filmId/rate", async (req, res, next) => {
   }
 });
 
+//clean movie arrays if needed for development
 router.put("/cleanUpData/", async (req, res) => {
   try {
     const movies = await MovieModel.updateMany(
