@@ -18,7 +18,9 @@ const MovieSchema: Schema = new Schema(
     Poster: { type: String, required: true },
     seenBy: [{ _id: { type: Schema.Types.ObjectId, ref: "Users" } }],
     views: { type: Number, required: true },
-    reviews: { type: [Schema.Types.ObjectId], ref: "Reviews", required: true },
+    reviews: {
+      _id: { type: [Schema.Types.ObjectId], ref: "Reviews", required: true },
+    },
     rating: { type: Number, required: true },
   },
   { timestamps: true }
@@ -33,7 +35,7 @@ MovieSchema.static(
     ).findByIdAndUpdate(
       { _id: movieId },
       {
-        $push: { reviews: reviewId },
+        $push: { reviews: { _id: reviewId } },
       }
     );
     return movieUpdated;

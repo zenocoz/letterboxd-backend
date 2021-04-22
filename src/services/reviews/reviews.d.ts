@@ -6,6 +6,7 @@ import { IUsers } from "../users/users.d";
 //   }
 
 export interface IReview extends Document {
+  _id: string;
   authorId: string;
   movieId: string;
   text: String;

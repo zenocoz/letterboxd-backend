@@ -9,7 +9,7 @@ export interface IUsers extends Document {
   watchList: Array<String>;
   following: Schema.Types.ObjectId[];
   followers: Schema.Types.ObjectId[];
-  reviews: Array<string>;
+  reviews: Schema.Types.ObjectId[];
   picture: string;
 }
 

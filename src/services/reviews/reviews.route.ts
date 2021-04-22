@@ -52,4 +52,18 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+// router.post("/", async (req, res, next) => {
+//   try {
+//     const newReview = await new ReviewModel(req.body.review).save();
+//     if (newReview) {
+//       res.send({ _id: newReview._id });
+//     } else {
+//       console.log("couldn't add review to Database'");
+//     }
+//   } catch (err) {
+//     console.log(err);
+//     next(new ApiError(500, "Couldn't add new review", false));
+//   }
+// });
+
 export default router;

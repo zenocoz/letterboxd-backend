@@ -184,6 +184,27 @@ router.post(
   }
 );
 
+router.put(
+  "/:userId/modifyPicture",
+  cloudinaryMulter.single("picture"),
+  async (req, res, next) => {
+    try {
+      const user = await Users.findByIdAndUpdate(
+        { _id: req.params.userId },
+        { $set: { picture: req["file"].path } }
+      );
+      if (user) {
+        res.send("picture updated ");
+      } else {
+        console.log("problems updadting picture profile");
+      }
+    } catch (err) {
+      console.log(err);
+      next(new ApiError(500, "Couldn't update profile picture", false));
+    }
+  }
+);
+
 router.get("/member/:id", async (req, res, next) => {
   try {
     const member = await Users.findById(req.params.id, { password: 0 });

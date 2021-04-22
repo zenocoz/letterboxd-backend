@@ -199,4 +199,18 @@ router.put("/:filmId/rate", async (req, res, next) => {
   }
 });
 
+router.put("/cleanUpData/", async (req, res) => {
+  try {
+    const movies = await MovieModel.updateMany(
+      {},
+      {
+        $set: { reviews: [], seenBy: [], views: 0, rating: 0 },
+      }
+    );
+    res.send(movies);
+  } catch (err) {
+    console.log(req.headers);
+  }
+});
+
 export default router;

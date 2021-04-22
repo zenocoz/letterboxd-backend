@@ -115,7 +115,7 @@ userSchema.static(
       "Users",
       userSchema
     ).findByIdAndUpdate(userId, {
-      $push: { reviews: reviewId },
+      $push: { reviews: { _id: reviewId } },
     });
     return memberUpdated;
   }
