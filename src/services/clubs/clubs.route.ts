@@ -66,22 +66,6 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-//accept invitation
-// router.get("/confirm/:accessToken/:clubId", async (req, res) => {
-//   try {
-//     const token = req.params.accessToken;
-//     console.log("token", token);
-//     const decoded: any = await verifyJWT(token, process.env.JWT_ACCESS_SECRET);
-//     console.log("deconded", decoded);
-//     const user = await Users.findOne({ _id: decoded._id });
-//     if (!user) throw new Error();
-//     ClubModel.acceptInvitation(req.params.clubId, decoded._id);
-//     res.send({ userAuthenticated: user._id });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
-
 // router.get("/memberStatus/:clubId/:memberId", async (req, res) => {
 //   try {
 //     const response = await ClubModel.findOne(
