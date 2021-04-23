@@ -22,7 +22,7 @@ const storage = new CloudinaryStorage({
     folder: "striveTest",
   },
 });
-const cloudinaryMulter = multer({ storage: storage });
+const cloudinaryMulter = multer({ storage });
 
 const mongoose = require("mongoose");
 
@@ -163,32 +163,33 @@ router.get("/films/:userId", async (req, res, next) => {
   }
 });
 
-router.post(
-  "/:userId/addPicture",
-  cloudinaryMulter.single("picture"),
-  async (req, res, next) => {
-    try {
-      const user = await Users.findByIdAndUpdate(
-        { _id: req.params.userId },
-        { $set: { picture: req["file"].path } }
-      );
-      if (user) {
-        res.send("picture succesfully uploaded");
-      } else {
-        console.log("problems adding picture profile");
-      }
-    } catch (err) {
-      console.log(err);
-      next(new ApiError(500, "Couldn't add profile picture", false));
-    }
-  }
-);
+// router.post(
+//   "/:userId/addPicture",
+//   cloudinaryMulter.single("picture"),
+//   async (req, res, next) => {
+//     try {
+//       const user = await Users.findByIdAndUpdate(
+//         { _id: req.params.userId },
+//         { $set: { picture: req["file"].path } }
+//       );
+//       if (user) {
+//         res.send("picture succesfully uploaded");
+//       } else {
+//         console.log("problems adding picture profile");
+//       }
+//     } catch (err) {
+//       console.log(err);
+//       next(new ApiError(500, "Couldn't add profile picture", false));
+//     }
+//   }
+// );
 
 router.put(
   "/:userId/modifyPicture",
   cloudinaryMulter.single("picture"),
   async (req, res, next) => {
     try {
+      console.log({ file: req["file"] });
       const user = await Users.findByIdAndUpdate(
         { _id: req.params.userId },
         { $set: { picture: req["file"].path } }
@@ -198,6 +199,7 @@ router.put(
       } else {
         console.log("problems updadting picture profile");
       }
+      res.send("ok");
     } catch (err) {
       console.log(err);
       next(new ApiError(500, "Couldn't update profile picture", false));

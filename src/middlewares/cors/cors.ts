@@ -3,7 +3,7 @@ import ApiError from "@classes/ApiError/ApiError";
 const whiteList =
   process.env.NODE_ENV === "production"
     ? [process.env.FRONTEND_PRODUCTION]
-    : [process.env.FRONTEND_DEV];
+    : [process.env.FRONTEND_DEV, process.env.EMAIL_LINK_DEV];
 
 const corsOptions = {
   origin: function (origin, callback) {

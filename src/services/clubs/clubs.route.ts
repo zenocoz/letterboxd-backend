@@ -2,15 +2,14 @@ import { Router } from "express";
 import ApiError from "@classes/ApiError/ApiError";
 import ClubModel from "./clubs.schema";
 const sgMail = require("@sendgrid/mail");
-import { AccessToken, verifyJWT } from "../../utils/jwt/jwt";
-import Users from "../users/users.schema";
+import { AccessToken } from "../../utils/jwt/jwt";
+// import Users from "../users/users.schema";
 
 const router = Router();
 
-//get film club by user id
+//get film clubs by user id
 router.get("/:userId", async (req, res, next) => {
   try {
-    console.log(req.params.userId);
     const club = await ClubModel.find({
       members: { $elemMatch: { _id: req.params.userId } },
     });
@@ -41,7 +40,7 @@ router.post("/", async (req, res, next) => {
         (async () => {
           try {
             let accessToken = await AccessToken({ _id: member._id });
-            let link = `http://localhost:5000/api/clubs/confirm/${accessToken}/${clubId}`;
+            let link = `http://localhost:5000/confirm/${accessToken}/${clubId}`;
             let msg = {
               to: member.email,
               from: "federico.soncini@gmail.com",
@@ -68,20 +67,32 @@ router.post("/", async (req, res, next) => {
 });
 
 //accept invitation
-router.get("/confirm/:accessToken/:clubId", async (req, res) => {
-  try {
-    const token = req.params.accessToken;
-    console.log("token", token);
-    const decoded: any = await verifyJWT(token, process.env.JWT_ACCESS_SECRET);
-    console.log("deconded", decoded);
-    const user = await Users.findOne({ _id: decoded._id });
-    if (!user) throw new Error();
-    ClubModel.acceptInvitation(req.params.clubId, decoded._id);
-    res.send({ userAuthenticated: user._id });
-  } catch (error) {
-    console.log(error);
-  }
-});
+// router.get("/confirm/:accessToken/:clubId", async (req, res) => {
+//   try {
+//     const token = req.params.accessToken;
+//     console.log("token", token);
+//     const decoded: any = await verifyJWT(token, process.env.JWT_ACCESS_SECRET);
+//     console.log("deconded", decoded);
+//     const user = await Users.findOne({ _id: decoded._id });
+//     if (!user) throw new Error();
+//     ClubModel.acceptInvitation(req.params.clubId, decoded._id);
+//     res.send({ userAuthenticated: user._id });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
+
+// router.get("/memberStatus/:clubId/:memberId", async (req, res) => {
+//   try {
+//     const response = await ClubModel.findOne(
+//       { _id: req.params.clubId, "members._id": req.params.memberId },
+//       { "members.$": 1 }
+//     );
+//     res.send(response);
+//   } catch (err) {
+//     console.log(err);
+//   }
+// });
 
 export default router;
 

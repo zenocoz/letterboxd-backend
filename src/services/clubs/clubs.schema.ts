@@ -10,6 +10,10 @@ const ClubSchema: Schema = new Schema(
           type: Schema.Types.Boolean,
           required: true,
         },
+        chooser: {
+          type: Schema.Types.Boolean,
+          required: true,
+        },
         email: { type: String },
       },
     ],

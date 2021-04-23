@@ -16,6 +16,8 @@ import passport from "@utils/passport/passport";
 
 import cookieParser from "cookie-parser";
 
+import confirmRoutes from "@services/confirm/";
+
 //EXPRESS
 const express = require("express");
 
@@ -23,13 +25,17 @@ const app = new express();
 
 app.use(cookieParser());
 
-app.use(cors());
+//must be before cors
 
 app.use(express.json());
 
 app.use(passport.initialize());
 
 app.use(passport.session());
+
+app.use("/confirm", confirmRoutes);
+
+app.use(cors());
 
 app.use("/api", services);
 
