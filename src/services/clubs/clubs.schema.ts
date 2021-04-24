@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose";
-// import mongoose from "mongoose";
-// const id = mongoose.Types.ObjectId();
+import mongoose from "mongoose";
+const id = mongoose.Types.ObjectId();
 
 const ClubSchema: Schema = new Schema(
   {
@@ -17,7 +17,7 @@ const ClubSchema: Schema = new Schema(
           required: true,
         },
         email: { type: String },
-        // film: { type: Schema.Types.ObjectId, ref: "Movies", default: "" },
+        film: { type: Schema.Types.ObjectId, ref: "Movies", default: id },
       },
     ],
     films: [{ type: Schema.Types.ObjectId, ref: "Movies" }],

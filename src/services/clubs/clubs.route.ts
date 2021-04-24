@@ -83,10 +83,10 @@ router.put("/:clubId/:memberId", async (req, res) => {
   try {
     console.log("clubId", req.params.clubId);
     console.log("memberId", req.params.memberId);
-    console.log("movieId", req.body.filmdId);
-    const response = await ClubModel.findOneAndUpdate(
-      { _id: req.params.clubId, "members._id": req.params.memberId },
-      { $set: { film: req.body.filmId } }
+    console.log("movieId", req.body.filmId);
+    const response = await ClubModel.findByIdAndUpdate(
+      { _id: req.params.clubId, members: req.params.memberId },
+      { $set: { "members.0.film": req.body.filmId } }
     );
 
     res.send(response);
