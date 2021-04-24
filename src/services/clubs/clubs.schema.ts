@@ -1,4 +1,6 @@
 import { model, Schema } from "mongoose";
+// import mongoose from "mongoose";
+// const id = mongoose.Types.ObjectId();
 
 const ClubSchema: Schema = new Schema(
   {
@@ -15,9 +17,10 @@ const ClubSchema: Schema = new Schema(
           required: true,
         },
         email: { type: String },
+        film: { type: Schema.Types.ObjectId, ref: "Movies", default: null },
       },
     ],
-    films: [{ _id: { type: Schema.Types.ObjectId, ref: "Movies" } }],
+    films: [{ type: Schema.Types.ObjectId, ref: "Movies" }],
   },
   { timestamps: true }
 );
@@ -36,6 +39,18 @@ ClubSchema.static(
     return clubUpdated;
   }
 );
+// ClubSchema.static(
+//   "setAllMovieData",
+//   async function (this, clubId, memberId, movieData): Promise<any> {
+//     const clubUpdated = await model<any>("Clubs", ClubSchema).findOneAndUpdate(
+//       { _id: clubId, "members._id": memberId },
+//       {
+//         $set: { "members.$.film": movieData },
+//       }
+//     );
+//     return clubUpdated;
+//   }
+// );
 
 const ClubModel: any = model<any>("Clubs", ClubSchema);
 
