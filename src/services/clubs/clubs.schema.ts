@@ -17,7 +17,7 @@ const ClubSchema: Schema = new Schema(
           required: true,
         },
         email: { type: String },
-        film: { type: Schema.Types.ObjectId, ref: "Movies", default: null },
+        // film: { type: Schema.Types.ObjectId, ref: "Movies", default: "" },
       },
     ],
     films: [{ type: Schema.Types.ObjectId, ref: "Movies" }],
@@ -39,18 +39,6 @@ ClubSchema.static(
     return clubUpdated;
   }
 );
-// ClubSchema.static(
-//   "setAllMovieData",
-//   async function (this, clubId, memberId, movieData): Promise<any> {
-//     const clubUpdated = await model<any>("Clubs", ClubSchema).findOneAndUpdate(
-//       { _id: clubId, "members._id": memberId },
-//       {
-//         $set: { "members.$.film": movieData },
-//       }
-//     );
-//     return clubUpdated;
-//   }
-// );
 
 const ClubModel: any = model<any>("Clubs", ClubSchema);
 

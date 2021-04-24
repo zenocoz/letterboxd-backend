@@ -78,22 +78,12 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-// router.get("/memberStatus/:clubId/:memberId", async (req, res) => {
-//   try {
-//     const response = await ClubModel.findOne(
-//       { _id: req.params.clubId, "members._id": req.params.memberId },
-//       { "members.$": 1 }
-//     );
-//     res.send(response);
-//   } catch (err) {
-//     console.log(err);
-//   }
-// });
-
-//select movie
-
-router.post("/:clubId/:memberId", async (req, res) => {
+//add select movie to member
+router.put("/:clubId/:memberId", async (req, res) => {
   try {
+    console.log("clubId", req.params.clubId);
+    console.log("memberId", req.params.memberId);
+    console.log("movieId", req.body.filmdId);
     const response = await ClubModel.findOneAndUpdate(
       { _id: req.params.clubId, "members._id": req.params.memberId },
       { $set: { film: req.body.filmId } }
