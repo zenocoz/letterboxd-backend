@@ -13,16 +13,22 @@ router.get("/:userId", async (req, res, next) => {
   try {
     const club = await ClubModel.find({
       members: { $elemMatch: { clubMember: req.params.userId } },
-    }).populate("members.0.film", {
-      Runtime: 0,
-      Genre: 0,
-      Director: 0,
-      Writer: 0,
-      Actors: 0,
-      Plot: 0,
-      Language: 0,
-      Country: 0,
-      imdbID: 0,
+    }).populate({
+      path: "members",
+      populate: {
+        path: "film",
+        select: "Title Poster Year",
+      },
+      // Runtime: 0,
+      // Genre: 0,
+      // Director: 0,
+      // Writer: 0,
+      // Actors: 0,
+      // Plot: 0,
+      // Language: 0,
+      // Country: 0,
+      // imdbID: 0,
+      // reviews: 0,
     });
     if (club) {
       res.send(club);
@@ -81,14 +87,20 @@ router.post("/", async (req, res, next) => {
 //add select movie to member
 router.put("/:clubId/:memberId", async (req, res) => {
   try {
-    const response = await ClubModel.findByIdAndUpdate(
-      { _id: req.params.clubId, "members.member": req.params.memberId },
+    console.log("clubbbbID", req.params.clubId);
+    console.log("memberIIDDD", req.params.memberId);
+    console.log("film id", req.body.filmId);
+
+    const response = await ClubModel.findOneAndUpdate(
+      {
+        _id: req.params.clubId,
+        "members.clubMember": req.params.memberId,
+      },
       { $set: { "members.$.film": req.body.filmId } }
     );
-
     res.send(response);
   } catch (err) {
-    console.log(err);
+    console.log("couldn't modify db");
   }
 });
 
