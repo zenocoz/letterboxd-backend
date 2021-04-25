@@ -16,10 +16,18 @@ const ClubSchema: Schema = new Schema(
           type: Schema.Types.Boolean,
           required: true,
         },
+        filmSelected: {
+          type: Schema.Types.Boolean,
+          required: true,
+        },
         email: { type: String },
         film: { type: Schema.Types.ObjectId, ref: "Movies", default: id },
       },
     ],
+    watching: {
+      type: Schema.Types.Boolean,
+      required: true,
+    },
     films: [{ type: Schema.Types.ObjectId, ref: "Movies" }],
   },
   { timestamps: true }

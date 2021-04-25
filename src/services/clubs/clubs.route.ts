@@ -17,7 +17,7 @@ router.get("/:userId", async (req, res, next) => {
       path: "members",
       populate: {
         path: "film",
-        select: "Title Poster Year",
+        select: "Title Poster Year imdbID",
       },
       // Runtime: 0,
       // Genre: 0,
@@ -96,11 +96,36 @@ router.put("/:clubId/:memberId", async (req, res) => {
         _id: req.params.clubId,
         "members.clubMember": req.params.memberId,
       },
-      { $set: { "members.$.film": req.body.filmId } }
+      {
+        $set: {
+          "members.$.film": req.body.filmId,
+          // "members.$.filmSelected": true, TODO use for when chooser selects film
+        },
+      }
     );
     res.send(response);
   } catch (err) {
     console.log("couldn't modify db");
+  }
+});
+
+//start watching
+router.put("/watch/:clubId/:movieId", async (req, res) => {
+  try {
+    const response = await ClubModel.findOneAndUpdate(
+      {
+        _id: req.params.clubId,
+      },
+      {
+        $set: {
+          watching: true,
+        },
+        $addToSet: { films: req.params.movieId },
+      }
+    );
+    res.send(response);
+  } catch (err) {
+    console.log("couldn't start watching movie");
   }
 });
 
