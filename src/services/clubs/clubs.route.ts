@@ -12,8 +12,8 @@ const router = Router();
 router.get("/:userId", async (req, res, next) => {
   try {
     const club = await ClubModel.find({
-      members: { $elemMatch: { _id: req.params.userId } },
-    }).populate("members.film", {
+      members: { $elemMatch: { clubMember: req.params.userId } },
+    }).populate("members.0.film", {
       Runtime: 0,
       Genre: 0,
       Director: 0,
@@ -81,12 +81,9 @@ router.post("/", async (req, res, next) => {
 //add select movie to member
 router.put("/:clubId/:memberId", async (req, res) => {
   try {
-    console.log("clubId", req.params.clubId);
-    console.log("memberId", req.params.memberId);
-    console.log("movieId", req.body.filmId);
     const response = await ClubModel.findByIdAndUpdate(
-      { _id: req.params.clubId, members: req.params.memberId },
-      { $set: { "members.0.film": req.body.filmId } }
+      { _id: req.params.clubId, "members.member": req.params.memberId },
+      { $set: { "members.$.film": req.body.filmId } }
     );
 
     res.send(response);
@@ -96,7 +93,3 @@ router.put("/:clubId/:memberId", async (req, res) => {
 });
 
 export default router;
-
-// router.post("/suggestMovie", async (req, res, next)=>{
-
-// })

@@ -7,7 +7,7 @@ const ClubSchema: Schema = new Schema(
     name: { type: String, required: true },
     members: [
       {
-        _id: { type: Schema.Types.ObjectId, ref: "Users" },
+        clubMember: { type: Schema.Types.ObjectId, ref: "Users" },
         confirmed: {
           type: Schema.Types.Boolean,
           required: true,
