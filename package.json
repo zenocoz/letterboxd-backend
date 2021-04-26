@@ -8,7 +8,7 @@
   "repository": "https://github.com/ubeytdemirr/express-typescript-starter",
   "keywords": [],
   "scripts": {
-    "start": "nodemon -r dotenv/config  ./build/main",
+    "start": "node ./src/index.ts",
     "dev": "ts-node-dev -r dotenv/config  ./src",
     "build": "tsc -p tsconfig.json",
     "fix:tslint": "tslint --fix --project .",
