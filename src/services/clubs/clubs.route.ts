@@ -21,16 +21,6 @@ router.get("/:userId", async (req, res, next) => {
           path: "film",
           select: "Title Poster Year imdbID",
         },
-        // Runtime: 0,
-        // Genre: 0,
-        // Director: 0,
-        // Writer: 0,
-        // Actors: 0,
-        // Plot: 0,
-        // Language: 0,
-        // Country: 0,
-        // imdbID: 0,
-        // reviews: 0,
       });
     if (club) {
       res.send(club);
