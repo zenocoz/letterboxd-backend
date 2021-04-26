@@ -4,3 +4,4 @@ src/**.js
 .idea/*
 env/**.env
 package-lock.json
+.env
