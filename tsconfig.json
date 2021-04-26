@@ -16,7 +16,7 @@
     "listEmittedFiles": false,
     "listFiles": false,
     "pretty": true,
-    "lib": ["dom"] /*was es2017 */,
+    "lib": ["es2017"] /*was es2017 */,
     "types": ["node"],
     "typeRoots": ["node_modules/@types", "src/types"],
     "baseUrl": "./src",
