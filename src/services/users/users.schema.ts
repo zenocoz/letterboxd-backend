@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 
-import { model, Schema } from "mongoose";
+import { model, Schema, Types } from "mongoose";
 
 import { IUsersModel } from "./users.d";
 
@@ -17,10 +17,10 @@ const userSchema: Schema = new Schema(
         rating: { type: Number },
       },
     ],
-    watchList: [{ _id: { type: Schema.Types.ObjectId, ref: "Movies" } }],
-    following: [{ _id: { type: Schema.Types.ObjectId, ref: "Users" } }],
-    followers: [{ _id: { type: Schema.Types.ObjectId, ref: "Users" } }],
-    reviews: [{ _id: { type: Schema.Types.ObjectId, ref: "Reviews" } }],
+    watchList: [{ type: Schema.Types.ObjectId, ref: "Movies" }],
+    following: [{ type: Schema.Types.ObjectId, ref: "Users" }],
+    followers: [{ type: Schema.Types.ObjectId, ref: "Users" }],
+    reviews: [{ type: Schema.Types.ObjectId, ref: "Reviews" }],
     picture: { type: String, required: false },
   },
   { timestamps: true, toObject: { virtuals: true }, toJSON: { virtuals: true } }
@@ -46,7 +46,9 @@ userSchema.static(
     ).findByIdAndUpdate(
       { _id: userId },
       {
-        $addToSet: { watchedMovies: { _id: movieId, rating: 0 } },
+        $addToSet: {
+          watchedMovies: { _id: Types.ObjectId(movieId), rating: 0 },
+        },
       }
     );
     return userUpdated;
@@ -89,7 +91,7 @@ userSchema.static(
       "Users",
       userSchema
     ).findByIdAndUpdate(memberId, {
-      $addToSet: { followers: { _id: userId } },
+      $addToSet: { followers: userId },
     });
     return memberUpdated;
   }

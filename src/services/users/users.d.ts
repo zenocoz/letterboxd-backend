@@ -5,7 +5,7 @@ export interface IUsers extends Document {
   email: string;
   username: string;
   password: string;
-  watchedMovies: object[];
+  watchedMovies: any[];
   watchList: Array<String>;
   following: Schema.Types.ObjectId[];
   followers: Schema.Types.ObjectId[];

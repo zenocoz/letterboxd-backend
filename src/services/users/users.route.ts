@@ -95,7 +95,7 @@ router.post("/:userId/follow/:memberId", async (req, res, next) => {
       },
       {
         $addToSet: {
-          following: { _id: mongoose.Types.ObjectId(req.params.memberId) },
+          following: mongoose.Types.ObjectId(req.params.memberId),
         },
       }
     );
