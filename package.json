@@ -9,7 +9,7 @@
   "keywords": [],
   "type": "module",
   "scripts": {
-    "start": "-r dotenv/config  ./build/main",
+    "start": "node ./src",
     "dev": "ts-node-dev -r dotenv/config  ./src",
     "build": "tsc -p tsconfig.json",
     "fix:tslint": "tslint --fix --project .",
