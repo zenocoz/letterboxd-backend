@@ -13,23 +13,25 @@ router.get("/:userId", async (req, res, next) => {
   try {
     const club = await ClubModel.find({
       members: { $elemMatch: { clubMember: req.params.userId } },
-    }).populate({
-      path: "members",
-      populate: {
-        path: "film",
-        select: "Title Poster Year imdbID",
-      },
-      // Runtime: 0,
-      // Genre: 0,
-      // Director: 0,
-      // Writer: 0,
-      // Actors: 0,
-      // Plot: 0,
-      // Language: 0,
-      // Country: 0,
-      // imdbID: 0,
-      // reviews: 0,
-    });
+    })
+      .populate("films")
+      .populate({
+        path: "members",
+        populate: {
+          path: "film",
+          select: "Title Poster Year imdbID",
+        },
+        // Runtime: 0,
+        // Genre: 0,
+        // Director: 0,
+        // Writer: 0,
+        // Actors: 0,
+        // Plot: 0,
+        // Language: 0,
+        // Country: 0,
+        // imdbID: 0,
+        // reviews: 0,
+      });
     if (club) {
       res.send(club);
     } else {
@@ -121,6 +123,26 @@ router.put("/watch/:clubId/:movieId", async (req, res) => {
           watching: true,
         },
         $addToSet: { films: req.params.movieId },
+      }
+    );
+    res.send(response);
+  } catch (err) {
+    console.log("couldn't start watching movie");
+  }
+});
+
+//edit watching
+router.put("/editWatch/:clubId/:movieId", async (req, res) => {
+  try {
+    const response = await ClubModel.findOneAndUpdate(
+      {
+        _id: req.params.clubId,
+      },
+      {
+        $set: {
+          watching: false,
+        },
+        $pull: { films: req.params.movieId },
       }
     );
     res.send(response);
