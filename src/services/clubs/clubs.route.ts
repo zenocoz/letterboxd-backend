@@ -52,16 +52,16 @@ router.post("/", async (req, res, next) => {
           try {
             let accessToken = await AccessToken({ _id: member._id });
             let link = `http://localhost:5000/confirm/${accessToken}/${clubId}`;
-            // let msg = {
-            //   to: member.email,
-            //   from: "federico.soncini@gmail.com",
-            //   subject: `you have been invited to join the ${req.body.clubData.name} film club`,
-            //   text: "click on the link to accept the invitation",
-            //   html: `<strong>click on the link to accept the invitation ${link}</strong>`,
-            // };
+            let msg = {
+              to: member.email,
+              from: "federico.soncini@gmail.com",
+              subject: `you have been invited to join the ${req.body.clubData.name} film club`,
+              text: "click on the link to accept the invitation",
+              html: `<strong>click on the link to accept the invitation ${link}</strong>`,
+            };
             console.log("link", link);
 
-            // await sgMail.send(msg);
+            await sgMail.send(msg);
           } catch (err) {
             console.log("THESE ERRORS OCCURRED", err);
           }
