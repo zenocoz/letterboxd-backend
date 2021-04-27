@@ -39,7 +39,7 @@ ClubSchema.static(
     console.log("clubId", clubId);
     console.log("memberId", memberId);
     const clubUpdated = await model<any>("Clubs", ClubSchema).findOneAndUpdate(
-      { _id: clubId, "members._id": memberId },
+      { _id: clubId, "members.clubMember": memberId },
       {
         $set: { "members.$.confirmed": true },
       }

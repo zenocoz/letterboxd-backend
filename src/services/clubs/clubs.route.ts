@@ -49,8 +49,10 @@ router.post("/", async (req, res, next) => {
 
       members.forEach((member: any) => {
         (async () => {
+          console.log("member !!", member);
           try {
-            let accessToken = await AccessToken({ _id: member._id });
+            let accessToken = await AccessToken({ _id: member.clubMember });
+            console.log("accessToken", accessToken);
             let link = `http://localhost:5000/confirm/${accessToken}/${clubId}`;
             let msg = {
               to: member.email,

@@ -8,6 +8,7 @@ router.get("/:accessToken/:clubId", async (req, res) => {
   try {
     const token = req.params.accessToken;
     const decoded: any = await verifyJWT(token, process.env.JWT_ACCESS_SECRET);
+    console.log("decoded", decoded);
     const user = await Users.findOne({ _id: decoded._id });
     if (!user) throw new Error();
     ClubModel.acceptInvitation(req.params.clubId, decoded._id);
