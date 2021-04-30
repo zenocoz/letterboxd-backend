@@ -1,6 +1,6 @@
 import { Router } from "express";
 import axios from "axios";
-import ApiError from "@classes/ApiError/ApiError";
+import ApiError from "../../classes/ApiError/ApiError";
 import MovieModel from "./films.schema";
 import { IMovie } from "./films.d";
 import { IUsers } from "../users/users.d";

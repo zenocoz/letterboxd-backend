@@ -1,10 +1,9 @@
 import { Router } from "express";
 
-import usersRouter from "@services/users/users.route";
-import filmsRouter from "@services/films/films.route";
-import reviewsRouter from "@services/reviews/reviews.route";
-import clubsRouter from "@services/clubs/clubs.route";
-// import confirmRoutes from "@services/confirm/";
+import usersRouter from "./users/users.route";
+import filmsRouter from "./films/films.route";
+import reviewsRouter from "./reviews/reviews.route";
+import clubsRouter from "./clubs/clubs.route";
 
 const router = Router();
 
@@ -12,6 +11,5 @@ router.use("/users", usersRouter);
 router.use("/films", filmsRouter);
 router.use("/reviews", reviewsRouter);
 router.use("/clubs", clubsRouter);
-// router.use("/confirm", confirmRoutes);
 
 export default router;

@@ -1,5 +1,5 @@
 import cors from "cors";
-import ApiError from "@classes/ApiError/ApiError";
+import ApiError from "../../classes/ApiError/ApiError";
 const whiteList =
   process.env.NODE_ENV === "production"
     ? [`${process.env.FRONTEND_PRODUCTION}`]

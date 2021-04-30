@@ -1,4 +1,4 @@
-import ApiError from "@classes/ApiError/ApiError";
+import ApiError from "../../classes/ApiError/ApiError";
 
 export const tokenHandler = (req: any, res, next) => {
   try {

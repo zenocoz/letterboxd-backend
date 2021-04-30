@@ -4,19 +4,19 @@ import { createServer } from "http";
 
 import mongoose from "mongoose";
 
-import services from "@services/index";
+import services from "./services/index";
 
-import errorHandler from "@middlewares/ErrorHandler/ErrorHandler";
+import errorHandler from "./middlewares/ErrorHandler/ErrorHandler";
 
-import cors from "@middlewares/cors/cors";
+import cors from "./middlewares/cors/cors";
 
-import ApiError from "@classes/ApiError/ApiError";
+import ApiError from "./classes/ApiError/ApiError";
 
-import passport from "@utils/passport/passport";
+import passport from "./utils/passport/passport";
 
 import cookieParser from "cookie-parser";
 
-import confirmRoutes from "@services/confirm/";
+import confirmRoutes from "./services/confirm/";
 
 //EXPRESS
 const express = require("express");

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import ApiError from "@classes/ApiError/ApiError";
+import ApiError from "../../classes/ApiError/ApiError";
 import ClubModel from "./clubs.schema";
 
 const sgMail = require("@sendgrid/mail");

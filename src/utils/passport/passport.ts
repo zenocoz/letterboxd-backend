@@ -6,11 +6,11 @@ import passport from "passport";
 
 import bcrypt from "bcrypt";
 
-import ApiError from "@classes/ApiError/ApiError";
+import ApiError from "../../classes/ApiError/ApiError";
 
-import { TokenPairs } from "@utils/jwt/jwt";
+import { TokenPairs } from "../jwt/jwt";
 
-import Users from "@services/users/users.schema";
+import Users from "../../services/users/users.schema";
 
 const cookieExtractor = function (req) {
   console.log("cookies", req.cookies);

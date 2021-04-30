@@ -1,15 +1,15 @@
 import { Router } from "express";
 
-import passport from "@utils/passport/passport";
+import passport from "../../utils/passport/passport";
 
-import { tokenHandler } from "@middlewares/TokenHandler/TokenHandler";
+import { tokenHandler } from "../../middlewares/TokenHandler/TokenHandler";
 
 import Users from "./users.schema";
 import UserModel from "../users/users.schema";
 
 import { IUsers } from "./users.d";
 
-import ApiError from "@classes/ApiError/ApiError";
+import ApiError from "../../classes/ApiError/ApiError";
 // import { ResetToken } from "@utils/jwt/jwt";
 
 //cloudinary
