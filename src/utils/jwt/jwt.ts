@@ -37,6 +37,7 @@ export async function RefreshToken(data) {
 }
 
 export async function TokenPairs(data) {
+  console.log("DATA", data);
   const accessToken = await AccessToken(data);
   const refreshToken = await RefreshToken(data);
   return { accessToken, refreshToken };
