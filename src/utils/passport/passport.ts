@@ -133,7 +133,6 @@ passport.use(
         if (user) {
           done(new ApiError(400, "This email is already in use.", false), null);
         } else {
-          console.log(req.body);
           user = await new Users(req.body).save();
           delete user["_doc"].password;
           delete user["_doc"].__v;
