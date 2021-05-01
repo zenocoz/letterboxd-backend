@@ -9,6 +9,8 @@ export const tokenHandler = (req: any, res, next) => {
       if (req.query.returnToken === "true") {
         res.status(202).send(req.user);
       } else {
+        console.log("COOKIE", res.cookie);
+
         res.cookie("accessToken", req.user.accessToken);
         res.cookie("refreshToken", req.user.refreshToken);
         delete req.user.accessToken;

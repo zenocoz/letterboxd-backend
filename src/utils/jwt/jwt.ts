@@ -37,7 +37,6 @@ export async function RefreshToken(data) {
 }
 
 export async function TokenPairs(data) {
-  console.log("secret", JWT_ACCESS_SECRET);
   const accessToken = await AccessToken(data);
   const refreshToken = await RefreshToken(data);
   return { accessToken, refreshToken };
