@@ -44,7 +44,11 @@ router.post("/", async (req, res, next) => {
 
       sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-      const members = req.body.clubData.members;
+      // const members = req.body.clubData.members;
+      const members = req.body.clubData.members.filter(
+        (member) => member.chooser === false
+      );
+
       const clubId = newClub._id;
 
       members.forEach((member: any) => {
