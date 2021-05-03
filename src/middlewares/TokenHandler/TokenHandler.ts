@@ -8,8 +8,6 @@ export const tokenHandler = (req: any, res, next) => {
       if (req.query.returnToken === "true") {
         res.status(202).send(req.user);
       } else {
-        const cookieTEST = res.cookie("accessToken", req.user.accessToken);
-        console.log(cookieTEST);
         res.cookie("accessToken", req.user.accessToken, {
           httpOnly: true,
           secure: true,
