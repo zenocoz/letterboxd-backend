@@ -10,8 +10,16 @@ export const tokenHandler = (req: any, res, next) => {
       } else {
         const cookieTEST = res.cookie("accessToken", req.user.accessToken);
         console.log(cookieTEST);
-        res.cookie("accessToken", req.user.accessToken);
-        res.cookie("refreshToken", req.user.refreshToken);
+        res.cookie("accessToken", req.user.accessToken, {
+          httpOnly: true,
+          secure: true,
+          sameSite: "none",
+        });
+        res.cookie("refreshToken", req.user.refreshToken, {
+          httpOnly: true,
+          secure: true,
+          sameSite: "none",
+        });
         delete req.user.accessToken;
         delete req.user.refreshToken;
         res.send(req.user);
