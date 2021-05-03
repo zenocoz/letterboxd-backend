@@ -53,7 +53,7 @@ router.post("/", async (req, res, next) => {
           try {
             let accessToken = await AccessToken({ _id: member.clubMember });
             console.log("accessToken", accessToken);
-            let link = `http://localhost:5000/confirm/${accessToken}/${clubId}`;
+            let link = `https://letterboxdclub-backend.herokuapp.com/${accessToken}/${clubId}`;
             let msg = {
               to: member.email,
               from: "federico.soncini@gmail.com",
