@@ -13,7 +13,6 @@ import { TokenPairs } from "../jwt/jwt";
 import Users from "../../services/users/users.schema";
 
 const cookieExtractor = function (req) {
-  console.log("cookies", req.cookies);
   var token = null;
   if (req && req.cookies) {
     token = req.cookies["accessToken"];
@@ -38,7 +37,6 @@ passport.use(
     },
     async function (jwt_payload, done) {
       try {
-        console.log("Hello");
         const { _id } = jwt_payload;
         const user = await Users.findById(_id, { password: 0 });
         if (!user) {
