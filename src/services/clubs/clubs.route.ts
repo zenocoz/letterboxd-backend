@@ -45,10 +45,10 @@ router.post("/", async (req, res, next) => {
       sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
       // const members = req.body.clubData.members;
+
       const members = req.body.clubData.members.filter(
         (member) => member.chooser === false
       );
-
       const clubId = newClub._id;
 
       members.forEach((member: any) => {
@@ -57,7 +57,7 @@ router.post("/", async (req, res, next) => {
           try {
             let accessToken = await AccessToken({ _id: member.clubMember });
             console.log("accessToken", accessToken);
-            let link = `https://letterboxdclub-backend.herokuapp.com/${accessToken}/${clubId}`;
+            let link = `https://letterboxdclub-backend.herokuapp.com/confirm/${accessToken}/${clubId}`;
             let msg = {
               to: member.email,
               from: "federico.soncini@gmail.com",
