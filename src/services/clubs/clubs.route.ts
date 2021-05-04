@@ -148,4 +148,15 @@ router.put("/editWatch/:clubId/:movieId", async (req, res) => {
   }
 });
 
+router.delete("/:clubId", async (req, res) => {
+  try {
+    const clubToDelete = await ClubModel.findByIdAndDelete(req.params.clubId);
+    if (clubToDelete) {
+      res.send("club deleted");
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 export default router;
